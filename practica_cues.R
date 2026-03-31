@@ -21,14 +21,17 @@ hist(smm, main="Temps de servei", col="lightgreen")
 n <- length(ann)
 m <- length(smm)
 
-(apartat2 <- data.frame( n = length(ann),
-                         f_menys = qf(0.025,2*n,2*n),
-                         f_mes = qf(1-0.025,2*n,2*n),
-                         ef = (qf(1-0.025,2*n,2*n)-qf(0.025,2*n,2*n))/mean(c(qf(1-0.025,2*n,2*n), qf(0.025,2*n,2*n)))*100,
-                         x_menys = qchisq(0.025,2*n)/(2*n),
-                         x_mes = qchisq(1-0.025,2*n)/(2*n),
-                         ex = (qchisq(1-0.025,2*n,2*n)-qchisq(0.025,2*n,2*n))/mean(c(qchisq(1-0.025,2*n,2*n), qchisq(0.025,2*n,2*n)))*100))
+(x_menys <- qchisq(0.025,2*n)/(2*n)
+x_mes <- qchisq(1-0.025,2*n)/(2*n)
+c(lambda.hat*x_menys, lambda.hat, lambda.hat*x_mes)
 
-IC_lamda <- c(lambda.hat*apartat2$x_menys,lambda.hat*apartat2$x_mes)
-IC_mu <- c(mu.hat*apartat2$x_menys,mu.hat*apartat2$x_mes)
-IC_rho <- c(apartat2$f_menys*rho.hat,apartat2$f_mes*rho.hat)
+f_menys <- qf(0.025,2*n,2*n)
+f_mes <- qf(1-0.025,2*n,2*n)
+c(rho.hat * f_menys, rho.hat, rho.hat * f_mes)
+
+
+(apartat2 <- data.frame( n, f_menys, f_mes,
+                         ef = (f_mes-f_menys)/mean(c(f_mes, f_menys))*100,
+                         x_menys , x_mes,
+                         ex = (x_mes-x_menys)/mean(c(x_mes, x_menys))*100))
+ 
