@@ -69,6 +69,7 @@ abline(h=n/k, col="red", lwd=2, lty=2)
 
 pvalor
 chisq.test(iobs, p=pexp)
+#Com que pvalor>0.05, es pot acceptar que la mostra és compatible amb una exponencial
 
 #smm /entrades
 sample <- smm               
@@ -103,3 +104,5 @@ abline(h=n/k, col="red", lwd=2, lty=2)
 
 pvalor
 chisq.test(iobs, p=pexp)
+#Com que pvalor>0.05, es pot acceptar que la mostra és compatible amb una exponencial
+
