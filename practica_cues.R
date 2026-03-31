@@ -36,7 +36,7 @@ c(rho.hat * f_menys, rho.hat, rho.hat * f_mes)
                          ex = (x_mes-x_menys)/mean(c(x_mes, x_menys))*100))
  
 #APARTAT 3
-
+#ann /sortides
 sample <- ann               
 samplerate <- lambda.hat     
 n <- length(sample)
@@ -70,3 +70,36 @@ abline(h=n/k, col="red", lwd=2, lty=2)
 pvalor
 chisq.test(iobs, p=pexp)
 
+#smm /entrades
+sample <- smm               
+samplerate <- mu.hat     
+n <- length(sample)
+
+hist(sample, freq=FALSE, breaks=25, col="yellow",
+     main="Histograma mostra")
+curve(dexp(x, rate = samplerate), col=2, add=TRUE)
+
+sequence <- seq(0, 1, by=0.04)
+perdist <- qexp(sequence, rate = samplerate)
+perdist[length(perdist)] <- max(sample)
+
+hist(sample, freq=FALSE, breaks=perdist, col="green",
+     main="Histograma per percentils")
+curve(dexp(x, rate = samplerate), col=2, add=TRUE)
+
+dsample <- cut(sample, breaks=perdist, include.lowest=TRUE)
+iobs <- as.vector(table(dsample))
+
+k <- 25
+pexp <- rep(1/k, k)
+iexp <- n * pexp
+
+X2 <- sum((iobs - iexp)^2 / iexp)
+gl <- k - 1 - 1
+pvalor <- 1 - pchisq(X2, gl)
+
+barplot(iobs, main="Observed counts", col="green")
+abline(h=n/k, col="red", lwd=2, lty=2)
+
+pvalor
+chisq.test(iobs, p=pexp)
